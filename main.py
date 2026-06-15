@@ -1,11 +1,20 @@
 import logging
-
 import uvicorn
 from fastapi import FastAPI
+
+from contextlib import asynccontextmanager
+from database.database import connect, disconnect
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    await connect()
+    yield
+    await disconnect()
 
 app = FastAPI(
     title="News API",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 @app.get("/", include_in_schema=False)
