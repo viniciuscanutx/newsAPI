@@ -53,6 +53,12 @@ async def me(current_user: User = Depends(get_current_user)) -> User:
     return current_user
 
 
+@router.post("/logout", response_model=None)
+async def logout(current_user: User = Depends(get_current_user), auth: AuthService = Depends(get_auth_service)) -> None:
+    await auth.logout(current_user.id)
+    return None
+
+
 @router.put("/interests", response_model=User)
 async def update_interests(
     request: InterestsUpdateRequest,
@@ -69,3 +75,4 @@ async def update_preferences(
     auth: AuthService = Depends(get_auth_service),
 ) -> User:
     return await auth.update_preferences(current_user.id, request)
+
