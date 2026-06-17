@@ -1,6 +1,8 @@
-from motor.motor_asyncio import AsyncIOMotorDatabase
+from datetime import UTC, datetime
+
 from bson.objectid import ObjectId
-from datetime import datetime, UTC
+from motor.motor_asyncio import AsyncIOMotorDatabase
+from pymongo import ReturnDocument
 
 class UserRepository:
     
@@ -33,3 +35,41 @@ class UserRepository:
         result = await self._collection.insert_one(document)
         document["_id"] = str(result.inserted_id)
         return document
+
+    async def update_interests(
+        self,
+        user_id: str,
+        preferred_categories: list[str],
+        whitelist: list[str],
+        blacklist: list[str],
+    ) -> dict | None:
+        if not ObjectId.is_valid(user_id):
+            return None
+
+        return await self._collection.find_one_and_update(
+            {"_id": ObjectId(user_id)},
+            {
+                "$set": {
+                    "preferred_categories": preferred_categories,
+                    "whitelist": whitelist,
+                    "blacklist": blacklist,
+                    "updated_at": datetime.now(UTC),
+                }
+            },
+            return_document=ReturnDocument.AFTER,
+        )
+
+    async def update_preferences(self, user_id: str, dark_mode: bool) -> dict | None:
+        if not ObjectId.is_valid(user_id):
+            return None
+
+        return await self._collection.find_one_and_update(
+            {"_id": ObjectId(user_id)},
+            {
+                "$set": {
+                    "preferences.dark_mode": dark_mode,
+                    "updated_at": datetime.now(UTC),
+                }
+            },
+            return_document=ReturnDocument.AFTER,
+        )

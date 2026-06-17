@@ -8,6 +8,7 @@ from core.security import (
     verify_password,
 )
 from model.auth import TokenResponse
+from model.user import InterestsUpdateRequest, PreferencesUpdateRequest, User, document_to_user
 from repositories.token_repository import TokenRepository
 from repositories.user_repository import UserRepository
 
@@ -93,3 +94,36 @@ class AuthService:
 
         await self._tokens.revoke_refresh_token(refresh_token)
         return await self._issue_tokens(stored["user_id"])
+
+    async def update_interests(self, user_id: str, request: InterestsUpdateRequest) -> User:
+        document = await self._users.update_interests(
+            user_id,
+            [category.value for category in request.preferred_categories],
+            request.whitelist,
+            request.blacklist,
+        )
+
+        if not document:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Usuário não encontrado.",
+            )
+
+        return document_to_user(document)
+
+    async def update_preferences(self, user_id: str, request: PreferencesUpdateRequest) -> User:
+        if request.dark_mode is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Informe ao menos uma preferência.",
+            )
+
+        document = await self._users.update_preferences(user_id, request.dark_mode)
+
+        if not document:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Usuário não encontrado.",
+            )
+
+        return document_to_user(document)

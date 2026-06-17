@@ -33,3 +33,16 @@ class UserRead(UserFeedSettings):
     name: str
     is_active: bool
     preferences: UserPreferences = Field(default_factory=UserPreferences)
+
+
+def document_to_user(document: dict) -> User:
+    return User(
+        id=str(document["_id"]),
+        email=document["email"],
+        name=document["name"],
+        is_active=document["is_active"],
+        preferred_categories=document.get("preferred_categories", []),
+        whitelist=document.get("whitelist", []),
+        blacklist=document.get("blacklist", []),
+        preferences=UserPreferences(**document.get("preferences", {})),
+    )
