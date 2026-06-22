@@ -95,6 +95,9 @@ class AuthService:
         await self._tokens.revoke_refresh_token(refresh_token)
         return await self._issue_tokens(stored["user_id"])
 
+    async def logout(self, user_id: str) -> None:
+        await self._tokens.revoke_all_user_tokens(user_id)
+
     async def update_interests(self, user_id: str, request: InterestsUpdateRequest) -> User:
         document = await self._users.update_interests(
             user_id,

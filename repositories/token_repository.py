@@ -18,3 +18,6 @@ class TokenRepository:
 
     async def revoke_refresh_token(self, token: str) -> None:
         await self._collection.delete_one({"token": token})
+
+    async def revoke_all_user_tokens(self, user_id: str) -> None:
+        await self._collection.delete_many({"user_id": user_id})

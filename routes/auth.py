@@ -12,7 +12,7 @@ from model.auth import (
 from model.user import InterestsUpdateRequest, PreferencesUpdateRequest, User
 from services.auth_service import AuthService
 
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+router = APIRouter(prefix="/api", tags=["auth"])
 
 
 @router.post("/validate", response_model=EmailRegisteredResponse)

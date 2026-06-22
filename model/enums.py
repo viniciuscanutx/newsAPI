@@ -1,4 +1,5 @@
-from typing import Literal, Enum
+from enum import Enum
+from typing import Literal
 
 FeedCategory = Literal["tech", "negocios", "cultura", "esportes", "politica", "internacional", "ciencia", "saude", "educacao", "economia", "financas", "carreira", "relacionamento", "familia", "viagem", "gastronomia", "moda", "beleza", "automotivo", "tecnologia", "entretenimento", "saude", "educacao", "economia", "financas", "carreira", "relacionamento", "familia", "viagem", "gastronomia", "moda", "beleza", "automotivo"]
 
