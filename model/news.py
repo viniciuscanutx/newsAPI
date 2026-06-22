@@ -26,8 +26,8 @@ class NewsItemRead(BaseModel):
 
     id: str
     title: str
-    summary: str
-    content: str
+    summary: str = ""
+    content: str = ""
     category: FeedCategory
     image_url: str | None = Field(default=None, alias="imageUrl")
 

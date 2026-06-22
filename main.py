@@ -7,7 +7,9 @@ from contextlib import asynccontextmanager
 
 from config.settings import settings
 from database.database import connect, disconnect
+from routes.admin import router as admin_router
 from routes.auth import router as auth_router
+from routes.news import router as news_router
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -30,6 +32,8 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(news_router)
+app.include_router(admin_router)
 
 @app.get("/", include_in_schema=False)
 async def health() -> dict[str, str]:
@@ -40,7 +44,7 @@ async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 def run() -> None:
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
 
 

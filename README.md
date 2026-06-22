@@ -12,8 +12,6 @@ API REST para uma newsletter personalizada. Usuários se cadastram, definem inte
 
 **Em desenvolvimento**
 
-- Endpoints HTTP de autenticação
-- Perfil do usuário e preferências de feed
 - Ingestão de notícias via NewsAPI
 - Feed diário paginado por interesses
 
@@ -54,7 +52,7 @@ newsAPIgithub/
 
 - [uv](https://docs.astral.sh/uv/)
 - MongoDB em execução
-- Chave da [NewsAPI](https://newsapi.org) *(necessária nas próximas etapas)*
+- Chave da [NewsData.io](https://newsdata.io) *(necessária nas próximas etapas)*
 
 ## Executar
 
@@ -109,9 +107,9 @@ uv run python main.py
 - [x] Models, config e conexão com MongoDB
 - [x] Segurança (bcrypt + JWT)
 - [x] Repositories e `AuthService`
-- [ ] Routers e injeção de dependência
-- [ ] Endpoints de usuário
-- [ ] Ingestão e feed de notícias
+- [x] Routers e injeção de dependência
+- [x] Endpoints de usuário
+- [x] Ingestão e feed de notícias
 
 ## Licença
 

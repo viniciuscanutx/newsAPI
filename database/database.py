@@ -27,3 +27,6 @@ async def ensure_indexes() -> None:
     await db.users.create_index("email", unique=True)
     await db.refresh_tokens.create_index("token", unique=True)
     await db.refresh_tokens.create_index("expires_at", expireAfterSeconds=0)
+    await db.news.create_index("source_url", unique=True)
+    await db.news.create_index("category")
+    await db.news.create_index("published_at")
