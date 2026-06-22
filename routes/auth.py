@@ -9,6 +9,7 @@ from model.auth import (
     TokenResponse,
     ValidateMailRequest,
 )
+from model.enums import FeedCategory
 from model.user import InterestsUpdateRequest, PreferencesUpdateRequest, User
 from services.auth_service import AuthService
 
@@ -75,4 +76,9 @@ async def update_preferences(
     auth: AuthService = Depends(get_auth_service),
 ) -> User:
     return await auth.update_preferences(current_user.id, request)
+
+
+@router.get("/categories")
+async def get_categories() -> list[str]:
+    return [category.value for category in FeedCategory]
 
